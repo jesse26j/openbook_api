@@ -32,7 +32,8 @@ jobs:
       ACCESS_TOKEN_EXPIRE_MINUTES: 30
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -41,12 +42,9 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m venv venv
-        source venv/bin/activate
-        pip install --upgrade pip
+        python -m pip install --upgrade pip
         pip install -r requirements.txt
 
     - name: Run tests
       run: |
-        source venv/bin/activate
         pytest
