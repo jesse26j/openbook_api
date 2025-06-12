@@ -44,6 +44,12 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+      
+    - name: Run Alembic migrations
+      run: alembic upgrade head
+      env:
+        PYTHONPATH: ${{ github.workspace }}/openbook_api
+        DATABASE_URL: postgresql://postgres:postgres@localhost/test_db
 
     - name: Run tests
       run: pytest
