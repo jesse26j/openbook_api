@@ -48,6 +48,10 @@ jobs:
 
     - name: Run tests
       run: |
-        source venv/bin/activate
-        export PYTHONPATH=.
         pytest
+      env:
+        PYTHONPATH: ${{ github.workspace }}
+        DATABASE_URL: postgresql://postgres:postgres@localhost/test_db
+        SECRET_KEY: testsecret
+        ALGORITHM: HS256
+        ACCESS_TOKEN_EXPIRE_MINUTES: 30
