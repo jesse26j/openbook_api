@@ -16,6 +16,7 @@ class UserBase(BaseModel):
 
 # Input schema for user creation
 class UserCreate(BaseModel):
+    name: str
     username: str
     email: EmailStr
     password: str
