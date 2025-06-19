@@ -10,12 +10,14 @@ client = TestClient(app)
 # Test setup
 PROVIDER = {
     "name": "Provider0",
+    "username": "provider0",
     "email": "provider0@example.com",
     "password": "test1234",
     "role": "provider"
 }
 CUSTOMER = {
     "name": "Customer0",
+    "username": "customer0",
     "email": "customer0@example.com",
     "password": "test1234",
     "role": "customer"
