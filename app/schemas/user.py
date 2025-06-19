@@ -20,6 +20,7 @@ class UserCreate(BaseModel):
     username: str
     email: EmailStr
     password: str
+    role: str
 
 # Schema for reading a user (e.g., in response)
 class UserRead(UserBase):
