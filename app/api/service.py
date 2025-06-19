@@ -27,6 +27,15 @@ def list_services(
 ):
     return service_crud.get_services_by_provider(db, current_user.id)
 
+@router.get("/services/all", response_model=List[ServiceRead])
+def list_all_services(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    if current_user.role != "customer":
+        raise HTTPException(status_code=403, detail="Only customers can view all services.")
+    return service_crud.get_all_services(db)
+
 @router.get("/services/{service_id}", response_model=ServiceRead)
 def get_service(
     service_id: UUID,
@@ -37,6 +46,10 @@ def get_service(
     if not svc or svc.provider_id != current_user.id:
         raise HTTPException(status_code=404, detail="Service not found.")
     return svc
+
+@router.get("/services/by_provider/{provider_id}", response_model=List[ServiceRead])
+def get_services_by_provider_id(provider_id: UUID, db: Session = Depends(get_db)):
+    return service_crud.get_services_by_provider(db, provider_id)
 
 @router.delete("/services/{service_id}")
 def delete_service(

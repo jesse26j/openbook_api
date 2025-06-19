@@ -37,3 +37,6 @@ def update_service(db: Session, service_id: uuid.UUID, updates: dict) -> Service
         db.commit()
         db.refresh(service)
     return service
+
+def get_all_services(db: Session) -> List[Service]:
+    return db.query(Service).all()

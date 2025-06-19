@@ -7,6 +7,7 @@ from app.api.deps import get_db, get_current_user
 from app.models.user import User
 from app.schemas.availability import AvailabilityCreate, AvailabilityRead
 from app.crud import availability as availability_crud
+from app.models.availability import Availability
 
 router = APIRouter()
 
@@ -27,6 +28,11 @@ def list_provider_availability(
 ):
     return availability_crud.get_availability_for_provider(db, current_user.id)
 
+@router.get("/availability/by_provider/{provider_id}", response_model=List[AvailabilityRead])
+def get_availability_by_provider_id(provider_id: UUID, db: Session = Depends(get_db)):
+    return db.query(Availability).filter(Availability.provider_id == provider_id).all()
+
+
 @router.delete("/availability/{availability_id}")
 def delete_availability(
     availability_id: UUID,
@@ -38,3 +44,7 @@ def delete_availability(
         raise HTTPException(status_code=404, detail="Availability entry not found.")
     availability_crud.delete_availability(db, availability_id)
     return {"detail": "Deleted"}
+
+@router.get("/availability/all", response_model=List[AvailabilityRead])
+def get_all_availability(db: Session = Depends(get_db)):
+    return db.query(Availability).all()

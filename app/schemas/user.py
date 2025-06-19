@@ -12,9 +12,12 @@ class UserBase(BaseModel):
     name: str
     email: EmailStr
     role: UserRole
+    username: str  # Add this
 
 # Input schema for user creation
-class UserCreate(UserBase):
+class UserCreate(BaseModel):
+    username: str
+    email: EmailStr
     password: str
 
 # Schema for reading a user (e.g., in response)
@@ -24,4 +27,16 @@ class UserRead(UserBase):
 
     class Config:
         from_attributes = True
+
+class UserOut(BaseModel):
+    id: int
+    username: str
+    email: EmailStr
+    class Config:
+        from_attributes = True
+
+# 
+class LoginRequest(BaseModel):
+    login: str
+    password: str
 
